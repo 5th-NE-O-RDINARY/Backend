@@ -14,6 +14,8 @@ import com.uteam.money.service.Location.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/appointments")
@@ -67,5 +69,11 @@ public class AppointmentController {
     AppointmentRequestDTO.dateDTO request) {
         AppointmentResponseDTO.AppointmentPreviewListDTO result = appointmentService.getAppPreviewListDTOButton(memberIdx, appIdx, request);
         return ApiResponse.onSuccess(result);
+    }
+
+    @GetMapping("/list/past/{memberIdx}")
+    public ApiResponse<List<AppointmentResponseDTO.pastAppDTO>> getPastAppList(@PathVariable("memberIdx") Long memberIdx){
+        List<AppointmentResponseDTO.pastAppDTO> pastAppList = appointmentService.getPastAppList(memberIdx);
+        return ApiResponse.onSuccess(pastAppList);
     }
 }

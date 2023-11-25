@@ -71,6 +71,18 @@ public class AppointmentResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class pastAppDTO {
+        Long appIdx;
+        String title;
+        LocalDateTime date;
+        Integer lateTime;
+        List<String> appMemberProfileList;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class expectedAppListDTO {
         Long appIdx;
         String latitude;
