@@ -1,6 +1,5 @@
 package com.uteam.money.dto.AppMember;
 
-import com.uteam.money.domain.AppMember;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
