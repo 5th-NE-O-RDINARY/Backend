@@ -31,5 +31,7 @@ public class AppointmentRequestDTO {
         Integer category;
 
         Integer lateFee;
+
+        Integer interval; // 차등 간격
     }
 }
