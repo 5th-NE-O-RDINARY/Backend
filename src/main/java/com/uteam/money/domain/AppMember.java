@@ -36,4 +36,13 @@ public class AppMember extends BaseEntity {
     @JoinColumn(name = "app_idx")
     private Appointment appointment;
     private Integer lateTime;
+
+    public void setStatus(arrivalButtonStatus arrivalButton) {
+        this.arrivalButton = arrivalButton;
+    }
+
+    public Integer setLateTime(int lateTime) {
+        this.lateTime = lateTime;
+        return lateTime;
+    }
 }

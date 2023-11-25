@@ -2,6 +2,7 @@ package com.uteam.money.dto.appointment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.uteam.money.domain.enums.Category;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -33,5 +34,11 @@ public class AppointmentRequestDTO {
         Integer lateFee;
 
         Integer interval; // 차등 간격
+    }
+
+    @Getter
+    public static class dateDTO {
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        LocalDateTime time;
     }
 }
