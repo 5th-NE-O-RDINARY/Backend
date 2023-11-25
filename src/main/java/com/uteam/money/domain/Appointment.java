@@ -19,9 +19,9 @@ public class Appointment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appIdx;
 
-    private Date date;
+    private String title;
 
-    private String location;
+    private Date date;
 
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -37,4 +37,8 @@ public class Appointment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_idx")
     private Member member;
+
+    @OneToOne
+    @JoinColumn(name = "loc_idx")
+    private Location location;
 }
