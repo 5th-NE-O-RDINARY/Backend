@@ -1,13 +1,19 @@
 package com.uteam.money.domain;
 
+import com.uteam.money.domain.common.BaseEntity;
 import com.uteam.money.domain.enums.AppointmentStatus;
 import com.uteam.money.domain.enums.Category;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
-public class Appointment {
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class Appointment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +33,8 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
     private AppointmentStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_idx")
+    private Member member;
 }
