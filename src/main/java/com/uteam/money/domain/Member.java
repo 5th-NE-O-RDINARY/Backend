@@ -32,7 +32,6 @@ public class Member extends BaseEntity {
     private String password;
     private String name;
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
     private MemberStatus status;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_img_idx")

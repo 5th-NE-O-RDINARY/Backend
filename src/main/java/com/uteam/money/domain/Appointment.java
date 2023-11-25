@@ -36,7 +36,6 @@ public class Appointment extends BaseEntity {
     private PayMethod payMethod;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
     private AppointmentStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
