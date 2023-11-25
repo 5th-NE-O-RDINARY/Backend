@@ -8,4 +8,6 @@ public interface MemberService {
     boolean checkId(String memberId);
 
     Member chargePoint(Long memberIdx, MemberRequestDTO.chargePoint request);
+
+    Member showMemberInfo(Long memberIdx);
 }

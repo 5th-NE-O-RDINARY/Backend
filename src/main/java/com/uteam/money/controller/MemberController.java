@@ -39,4 +39,11 @@ public class MemberController {
         Member member = memberService.chargePoint(memberIdx, request);
         return ApiResponse.onSuccess(MemberConverter.pointResultDTO(member));
     }
+
+    // 마이페이지 화면
+    @GetMapping("/show/{memberIdx}")
+    public ApiResponse<?> showMemberInfo(@PathVariable("memberIdx") Long memberIdx){
+        Member member = memberService.showMemberInfo(memberIdx);
+        return ApiResponse.onSuccess(MemberConverter.myPageResultDTO(member));
+    }
 }
