@@ -5,6 +5,7 @@ import com.uteam.money.domain.Location;
 import com.uteam.money.domain.Member;
 import com.uteam.money.domain.enums.AppointmentStatus;
 import com.uteam.money.domain.enums.Category;
+import com.uteam.money.domain.enums.PayMethod;
 import com.uteam.money.dto.appointment.AppointmentRequestDTO;
 import com.uteam.money.dto.appointment.AppointmentResponseDTO;
 
@@ -37,6 +38,16 @@ public class AppointmentConverter {
                 break;
         }
 
+        PayMethod payMethod = null;
+        switch(request.getPayMethod()){
+            case 1:
+                payMethod = PayMethod.COMMON;
+                break;
+            case 2:
+                payMethod = PayMethod.DIFF;
+                break;
+        }
+
         return Appointment.builder()
                 .title(request.getTitle())
                 .lateFee(request.getLateFee())
@@ -46,6 +57,7 @@ public class AppointmentConverter {
                 .location(location)
                 .member(member)
                 .inviteCode(inviteCode)
+                .payMethod(payMethod)
                 .build();
     }
 }
