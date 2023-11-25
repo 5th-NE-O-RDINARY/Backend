@@ -6,6 +6,7 @@ import com.uteam.money.domain.AppMember;
 import com.uteam.money.domain.Appointment;
 import com.uteam.money.domain.DiffAppointment;
 import com.uteam.money.domain.Member;
+import com.uteam.money.domain.enums.AppointmentStatus;
 import com.uteam.money.domain.enums.PayMethod;
 import com.uteam.money.dto.appointment.AppointmentResponseDTO;
 import com.uteam.money.repository.AppMemberRepository;
@@ -37,6 +38,7 @@ public class CalLateFeeServiceImpl implements CalLateFeeService{
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(appointmentIdx);
         if(optionalAppointment.isPresent()){
             Appointment appointment = optionalAppointment.get();
+            appointment.setStatus(AppointmentStatus.INACTIVE);
             Integer totalLateFee = 0;
 
             // 총 지각비 계산
