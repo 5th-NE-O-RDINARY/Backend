@@ -35,4 +35,5 @@ public class AppMember extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_idx")
     private Appointment appointment;
+    private Integer lateTime;
 }
