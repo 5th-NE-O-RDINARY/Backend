@@ -1,4 +1,4 @@
-package com.uteam.money.service;
+package com.uteam.money.service.Location;
 
 import com.uteam.money.domain.Location;
 import com.uteam.money.dto.appointment.AppointmentRequestDTO;

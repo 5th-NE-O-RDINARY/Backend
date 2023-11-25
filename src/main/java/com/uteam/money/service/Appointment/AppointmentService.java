@@ -1,4 +1,4 @@
-package com.uteam.money.service;
+package com.uteam.money.service.Appointment;
 
 import com.uteam.money.domain.Appointment;
 import com.uteam.money.domain.Location;
