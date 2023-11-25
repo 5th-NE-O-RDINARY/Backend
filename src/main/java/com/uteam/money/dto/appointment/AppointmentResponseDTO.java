@@ -48,9 +48,21 @@ public class AppointmentResponseDTO {
         arrivalButtonStatus status;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class RefundResultDTO{
         Long memberIdx;
         Long appointmentIdx;
         Integer refundFee;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class IsOneHourLeftDTO{
+        Boolean isLessThanOneHourLeft;
     }
 }

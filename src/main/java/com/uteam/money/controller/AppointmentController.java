@@ -48,4 +48,13 @@ public class AppointmentController {
 
         return ApiResponse.onSuccess(refundResultDTO);
     }
+
+
+    // 한 시간 이하로 남았는지
+    @PostMapping("/time/onehourleft/{appointmentIdx}")
+    public ApiResponse<?> isLessThanOneHourLeft(@PathVariable("appointmentIdx") Long appointmentIdx, @RequestBody AppointmentRequestDTO.dateDTO request){
+        Boolean isOneHourLeft = appointmentService.isMoreThanOneHourLeft(appointmentIdx, request);
+        AppointmentResponseDTO.IsOneHourLeftDTO check = AppointmentResponseDTO.IsOneHourLeftDTO.builder().isLessThanOneHourLeft(isOneHourLeft).build();
+        return ApiResponse.onSuccess(check);
+    }
 }
