@@ -1,14 +1,18 @@
-package com.uteam.money.service;
+package com.uteam.money.service.Appointment;
 
 import com.uteam.money.apiPayload.GeneralException;
 import com.uteam.money.apiPayload.code.status.ErrorStatus;
+import com.uteam.money.converter.AppMemberConverter;
 import com.uteam.money.converter.AppointmentConverter;
+import com.uteam.money.domain.AppMember;
 import com.uteam.money.domain.Appointment;
 import com.uteam.money.domain.Location;
 import com.uteam.money.domain.Member;
 import com.uteam.money.dto.appointment.AppointmentRequestDTO;
+import com.uteam.money.repository.AppMemberRepository;
 import com.uteam.money.repository.AppointmentRepository;
 import com.uteam.money.repository.MemberRepository;
+import com.uteam.money.service.Appointment.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,11 +24,13 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AppointmentServiceImpl implements AppointmentService{
+public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
 
     private final MemberRepository memberRepository;
+
+    private final AppMemberRepository appMemberRepository;
 
 
     @Override
@@ -40,6 +46,8 @@ public class AppointmentServiceImpl implements AppointmentService{
         // Appointment 생성
         if(member.isPresent()){
             Appointment newAppointment = AppointmentConverter.toAppointment(member.get(), request, location, inviteCode);
+            AppMember appMember = AppMemberConverter.toAppMember(newAppointment, member.get());
+            appMemberRepository.save(appMember);
             return appointmentRepository.save(newAppointment);
         }
         else{

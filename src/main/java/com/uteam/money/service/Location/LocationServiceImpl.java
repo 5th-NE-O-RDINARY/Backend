@@ -1,10 +1,10 @@
-package com.uteam.money.service;
+package com.uteam.money.service.Location;
 
 import com.uteam.money.converter.LocationConverter;
-import com.uteam.money.domain.Appointment;
 import com.uteam.money.domain.Location;
 import com.uteam.money.dto.appointment.AppointmentRequestDTO;
 import com.uteam.money.repository.LocationRepository;
+import com.uteam.money.service.Location.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class LocationServiceImpl implements LocationService{
+public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
 
