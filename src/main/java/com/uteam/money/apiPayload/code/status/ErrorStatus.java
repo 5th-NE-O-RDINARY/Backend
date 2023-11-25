@@ -19,7 +19,11 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
 
     APP_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "APPMEMBER4001", "초대코드가 일치하지 않습니다"),
-    APPOINTMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "APP4001", "존재하지 않는 약속방입니다.");
+    APPOINTMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "APP4001", "존재하지 않는 약속방입니다."),
+
+    // user
+    PROFILEIMG_NOT_FOUND(HttpStatus.NOT_FOUND, "IMG4001", "프로필 이미지 생성에 실패하였습니다.")
+    ;
 
 
     private final HttpStatus httpStatus;
