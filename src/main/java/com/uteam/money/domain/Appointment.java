@@ -45,4 +45,8 @@ public class Appointment extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "loc_idx")
     private Location location;
+
+    public void setStatus(AppointmentStatus appointmentStatus){
+        this.status = appointmentStatus;
+    }
 }
