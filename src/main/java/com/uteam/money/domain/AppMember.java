@@ -28,7 +28,6 @@ public class AppMember extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appMemberIdx;
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'INACTIVE'")
     private arrivalButtonStatus arrivalButton;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_idx")
