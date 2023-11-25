@@ -30,7 +30,7 @@ cloud:
       access-key: AKIAT2DUCVSUV4QGXN57
       secret-key: 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
     s3:
-      bucket: money-bucket-aws
+      bucket: bucket-app-money
     region:
       static: ap-northeast-2
     stack:
