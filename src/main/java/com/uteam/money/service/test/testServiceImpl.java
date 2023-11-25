@@ -47,6 +47,8 @@ public class testServiceImpl implements testService{
                 appMember.setLateTime(0);
             }
             return AppointmentConverter.appPreviewListDTO(appointment, members);
+        } else {
+            getAppListButton(memberIdx, appIdx, request);
         }
         return AppointmentConverter.appPreviewListDTO(appointment, members);
     }
@@ -58,5 +60,11 @@ public class testServiceImpl implements testService{
         long seconds = duration.toMinutes();
 
         return seconds;
+    }
+
+    // 버튼 기반일 때
+    public AppointmentResponseDTO.AppointmentPreviewListDTO getAppListButton(Long memberIdx, Long appIdx, AppointmentRequestDTO.dateDTO request) {
+//            // 약속 시간 전 도착: 방장 수동
+        return null;
     }
 }
