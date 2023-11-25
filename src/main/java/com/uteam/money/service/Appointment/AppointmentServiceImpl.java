@@ -16,6 +16,8 @@ import com.uteam.money.repository.AppMemberRepository;
 import com.uteam.money.repository.AppointmentRepository;
 import com.uteam.money.repository.MemberRepository;
 import com.uteam.money.service.Appointment.AppointmentService;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -168,6 +170,42 @@ public class AppointmentServiceImpl implements AppointmentService {
         appMember.setLateTime(absValue);
 
         return AppointmentConverter.appPreviewListDTO(appointment, members);
+    }
+
+    @Override
+    public List<AppointmentResponseDTO.pastAppDTO> getPastAppList(Long memberIdx) {
+        Optional<Member> optionalMember = memberRepository.findById(memberIdx);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Integer appCount = 0;
+
+        log.info("member = {}", optionalMember.get().toString());
+        if(optionalMember.isPresent()){
+            log.info("mmmm");
+            Member member = optionalMember.get();
+
+            List<Appointment> appointmentList = appointmentRepository.findAllByMember(member);
+            List<AppointmentResponseDTO.pastAppDTO> pastAppDTOS = new ArrayList<>();
+            log.info("appointmentList = {}", appointmentList.toString());
+
+
+            for (Appointment appointment : appointmentList) {
+                log.info("appointment = {}", appointment.getAppIdx());
+
+                List<AppMember> appMemberList = appMemberRepository.findAllByAppointment(appointment);
+                log.info("appMemberList = {}", appMemberList.stream().toList());
+
+                AppMember appMember = appMemberRepository.findByMemberAndAppointment(member, appointment);
+                appCount++;
+
+                AppointmentResponseDTO.pastAppDTO pastAppDTO = AppointmentConverter.pastAppListDTO(appointment, appMemberList, appMember);
+                pastAppDTOS.add(pastAppDTO);
+            }
+            return pastAppDTOS;
+        }
+        else{
+            throw new GeneralException(ErrorStatus.MEMBER_NOT_FOUND);
+        }
+
     }
 
 }

@@ -16,6 +16,7 @@ import com.uteam.money.dto.appointment.AppointmentResponseDTO.AppointmentPreview
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,5 +92,22 @@ public class AppointmentConverter {
                 .memberList(memberList)
                 .build();
 
+    }
+
+    public static AppointmentResponseDTO.pastAppDTO pastAppListDTO(Appointment appointment, List<AppMember> appMembers, AppMember appMember){
+        List<String> appMemberProfileList = new ArrayList<>();
+        for (AppMember member : appMembers) {
+            System.out.println("member.getAppMemberIdx() = " + member.getAppMemberIdx());
+            String imgUrl = member.getMember().getMemberImg().getImgUrl();
+            appMemberProfileList.add(imgUrl);
+        }
+        
+        return AppointmentResponseDTO.pastAppDTO.builder()
+                .title(appointment.getTitle())
+                .appIdx(appointment.getAppIdx())
+                .date(appointment.getDate())
+                .lateTime(appMember.getLateTime())
+                .appMemberProfileList(appMemberProfileList)
+                .build();
     }
 }

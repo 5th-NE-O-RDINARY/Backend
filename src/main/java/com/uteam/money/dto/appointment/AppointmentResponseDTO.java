@@ -65,4 +65,16 @@ public class AppointmentResponseDTO {
     public static class IsOneHourLeftDTO{
         Boolean isLessThanOneHourLeft;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class pastAppDTO{
+        Long appIdx;
+        String title;
+        LocalDateTime date;
+        Integer lateTime;
+        List<String> appMemberProfileList;
+    }
 }
