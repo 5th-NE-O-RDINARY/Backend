@@ -70,6 +70,7 @@ public class AppointmentConverter {
     public static AppointmentResponseDTO.AppointMentMemberPreviewDTO appPreviewMemberDTO(Appointment app, AppMember appMember) {
         return AppointmentResponseDTO.AppointMentMemberPreviewDTO.builder()
                 .appMemberIdx(appMember.getAppMemberIdx())
+                .memberIdx(appMember.getMember().getMemberIdx())
                 .name(appMember.getMember().getName())
                 .profileImg(app.getMember().getMemberImg().getImgUrl())
                 .lateTime(appMember.getLateTime())
@@ -90,6 +91,5 @@ public class AppointmentConverter {
                 .date(appointment.getDate())
                 .memberList(memberList)
                 .build();
-
     }
 }
