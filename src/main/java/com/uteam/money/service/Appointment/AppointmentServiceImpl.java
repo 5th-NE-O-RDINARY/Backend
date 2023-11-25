@@ -9,11 +9,14 @@ import com.uteam.money.domain.Appointment;
 import com.uteam.money.domain.Location;
 import com.uteam.money.domain.Member;
 import com.uteam.money.domain.enums.PayMethod;
+import com.uteam.money.domain.enums.arrivalButtonStatus;
 import com.uteam.money.dto.appointment.AppointmentRequestDTO;
+import com.uteam.money.dto.appointment.AppointmentResponseDTO;
 import com.uteam.money.repository.AppMemberRepository;
 import com.uteam.money.repository.AppointmentRepository;
 import com.uteam.money.repository.MemberRepository;
 import com.uteam.money.service.Appointment.AppointmentService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -60,25 +63,29 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Boolean isMoreThanOneHourLeft(Long appointmentIdx, AppointmentRequestDTO.dateDTO request) {
+    public AppointmentResponseDTO.AppointmentPreviewListDTO isMoreThanOneHourLeft(Long memberIdx, Long appIdx, AppointmentRequestDTO.dateDTO request) {
+        Member member = memberRepository.getReferenceById(memberIdx);
+        Appointment appointment = appointmentRepository.getReferenceById(appIdx);
+        List<AppMember> members = appMemberRepository.findByAppointment(appointment);
+
+        AppMember appMember = appMemberRepository.findByMember(member);
+
         LocalDateTime currentTime = request.getTime();
         log.info("currentTime = {}", currentTime);
 
-        Optional<Appointment> optionalAppointment = appointmentRepository.findById(appointmentIdx);
-        if(optionalAppointment.isPresent()){
-            Appointment appointment = optionalAppointment.get();
-            LocalDateTime appointmentDate  = appointment.getDate();
+        Optional<Appointment> optionalAppointment = appointmentRepository.findById(appIdx);
 
-            Duration duration = Duration.between(currentTime, appointmentDate);
-            log.info("duration = {}", duration.toMinutes());
+        Appointment appointmentDay = optionalAppointment.get();
+        LocalDateTime appointmentDate = appointmentDay.getDate();
 
-            // 한 시간 이하 남았는지 확인
-            return duration.toMinutes() <= 60;
+        Duration duration = Duration.between(currentTime, appointmentDate);
+        if (duration.toMinutes() <= 60) {
+            appMember.setStatus(arrivalButtonStatus.INACTIVE);
+
         }
-        else{
-            throw new GeneralException(ErrorStatus.APPOINTMENT_NOT_FOUND);
-        }
+        return AppointmentConverter.appPreviewListDTO(appointment, members);
     }
+
 
     public String generateInviteCode(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -88,6 +95,79 @@ public class AppointmentServiceImpl implements AppointmentService {
             result.append(characters.charAt(rnd.nextInt(characters.length())));
         }
         return result.toString();
+    }
+
+    @Transactional
+    public AppointmentResponseDTO.AppointmentPreviewListDTO getAppPreviewListDTO(Long memberIdx, Long appIdx, AppointmentRequestDTO.dateDTO request) {
+
+        Member member = memberRepository.getReferenceById(memberIdx);
+        Appointment appointment = appointmentRepository.getReferenceById(appIdx);
+        List<AppMember> members = appMemberRepository.findByAppointment(appointment);
+
+        AppMember appMember = appMemberRepository.findByMember(member);
+        // 위치 기반
+        if ("LOCATION".equals(appointment.getCategory().toString())) {
+            int timeTotime = Math.toIntExact(appointmentCheck(appIdx, request.getTime()));
+
+            // 도착을 하지 않았으면 자동으로 빨강 (지각)
+            if (timeTotime < 0 ) {
+                appMember.setStatus(arrivalButtonStatus.RED);
+                int absValue = Math.abs(timeTotime);
+                appMember.setLateTime(absValue);
+            } else {
+                // 도착을 했다는 뜻
+                appMember.setStatus(arrivalButtonStatus.GRAY);
+                appMember.setLateTime(0);
+            }
+            return AppointmentConverter.appPreviewListDTO(appointment, members);
+        } else {
+            getAppListButton(memberIdx, appIdx, request);
+        }
+        return AppointmentConverter.appPreviewListDTO(appointment, members);
+    }
+
+    public Long appointmentCheck(Long appIdx, LocalDateTime time) {
+        Appointment appointment = appointmentRepository.getReferenceById(appIdx);
+
+        Duration duration = Duration.between(time, appointment.getDate());
+        long seconds = duration.toMinutes();
+
+        return seconds;
+    }
+
+    // 버튼 기반일 때
+    public AppointmentResponseDTO.AppointmentPreviewListDTO getAppListButton(Long memberIdx, Long appIdx, AppointmentRequestDTO.dateDTO request) {
+        Member member = memberRepository.getReferenceById(memberIdx);
+        Appointment appointment = appointmentRepository.getReferenceById(appIdx);
+        List<AppMember> members = appMemberRepository.findByAppointment(appointment);
+
+        int timeTotime = Math.toIntExact(appointmentCheck(appIdx, request.getTime()));
+
+        AppMember appMember = appMemberRepository.findByMember(member);
+
+        // 도착을 하지 않았으면 자동으로 빨강 (지각)
+        if (timeTotime < 0) {
+            appMember.setStatus(arrivalButtonStatus.RED);
+            int absValue = Math.abs(timeTotime);
+            appMember.setLateTime(absValue);
+        }
+        return AppointmentConverter.appPreviewListDTO(appointment, members);
+    }
+
+    @Transactional
+    public AppointmentResponseDTO.AppointmentPreviewListDTO getAppPreviewListDTOButton(Long memberIdx, Long appIdx, AppointmentRequestDTO.dateDTO request) {
+        Member member = memberRepository.getReferenceById(memberIdx);
+        Appointment appointment = appointmentRepository.getReferenceById(appIdx);
+        List<AppMember> members = appMemberRepository.findByAppointment(appointment);
+
+        int timeTotime = Math.toIntExact(appointmentCheck(appIdx, request.getTime()));
+
+        AppMember appMember = appMemberRepository.findByMember(member);
+        appMember.setStatus(arrivalButtonStatus.GRAY);
+        int absValue = Math.abs(timeTotime);
+        appMember.setLateTime(absValue);
+
+        return AppointmentConverter.appPreviewListDTO(appointment, members);
     }
 
 }
