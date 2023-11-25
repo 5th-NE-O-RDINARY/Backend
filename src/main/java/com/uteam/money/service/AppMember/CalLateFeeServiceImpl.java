@@ -143,6 +143,7 @@ public class CalLateFeeServiceImpl implements CalLateFeeService{
     }
 
     @Override
+    @Transactional
     public AppointmentResponseDTO.RefundResultDTO calRefundFee(Long memberIdx, Long appointmentIdx, Integer settleUpLateFee) {
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(appointmentIdx);
         Optional<Member> optionalMember = memberRepository.findById(memberIdx);
@@ -166,6 +167,10 @@ public class CalLateFeeServiceImpl implements CalLateFeeService{
                     refundFee += settleUpLateFee + lateFee;
                 }
             }
+
+            Member member = optionalMember.get();
+            member.setReward(refundFee);
+
             AppointmentResponseDTO.RefundResultDTO refundResultDTO
                     = AppointmentResponseDTO.RefundResultDTO.builder()
                     .refundFee(refundFee)
