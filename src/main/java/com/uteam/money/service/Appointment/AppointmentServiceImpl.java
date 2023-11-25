@@ -19,12 +19,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
@@ -53,6 +56,27 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
         else{
             throw new GeneralException(ErrorStatus.MEMBER_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public Boolean isMoreThanOneHourLeft(Long appointmentIdx, AppointmentRequestDTO.dateDTO request) {
+        LocalDateTime currentTime = request.getTime();
+        log.info("currentTime = {}", currentTime);
+
+        Optional<Appointment> optionalAppointment = appointmentRepository.findById(appointmentIdx);
+        if(optionalAppointment.isPresent()){
+            Appointment appointment = optionalAppointment.get();
+            LocalDateTime appointmentDate  = appointment.getDate();
+
+            Duration duration = Duration.between(currentTime, appointmentDate);
+            log.info("duration = {}", duration.toMinutes());
+
+            // 한 시간 이하 남았는지 확인
+            return duration.toMinutes() <= 60;
+        }
+        else{
+            throw new GeneralException(ErrorStatus.APPOINTMENT_NOT_FOUND);
         }
     }
 
