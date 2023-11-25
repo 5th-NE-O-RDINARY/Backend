@@ -33,7 +33,13 @@ public class Member extends BaseEntity {
     private String name;
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
+    private Integer point;
+    private Integer reward;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_img_idx")
     private MemberImg memberImg;
+
+    public void setReward(Integer reward){
+        this.reward = reward;
+    }
 }
