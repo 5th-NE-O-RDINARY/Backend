@@ -15,4 +15,13 @@ public class MemberResponseDTO {
         Long memberIdx;
         LocalDateTime createdAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class pointResultDTO{
+        Long memberIdx;
+        Integer point;
+    }
 }

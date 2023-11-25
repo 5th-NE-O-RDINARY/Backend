@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -37,5 +39,18 @@ public class MemberServiceImpl implements MemberService{
 
     public boolean checkId(String memberId) {
         return !memberRepository.existsByMemberId(memberId);
+    }
+
+    @Override
+    @Transactional
+    public Member chargePoint(Long memberIdx, MemberRequestDTO.chargePoint request) {
+        Optional<Member> optionalMember = memberRepository.findById(memberIdx);
+        if(optionalMember.isPresent()){
+            Member member = optionalMember.get();
+            member.setPoint(request.getPoint());
+            return member;
+        }else{
+            throw new GeneralException(ErrorStatus.MEMBER_NOT_FOUND);
+        }
     }
 }

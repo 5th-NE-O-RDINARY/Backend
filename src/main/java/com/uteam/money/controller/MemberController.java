@@ -7,10 +7,7 @@ import com.uteam.money.dto.Member.MemberRequestDTO;
 import com.uteam.money.dto.Member.MemberResponseDTO;
 import com.uteam.money.service.Member.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,5 +31,12 @@ public class MemberController {
             return true;
         }
         return false;
+    }
+
+    //예치금 넣기
+    @PostMapping("/charge/point/{memberIdx}")
+    public ApiResponse<?> chargePoint(@PathVariable("memberIdx") Long memberIdx, @RequestBody MemberRequestDTO.chargePoint request){
+        Member member = memberService.chargePoint(memberIdx, request);
+        return ApiResponse.onSuccess(MemberConverter.pointResultDTO(member));
     }
 }

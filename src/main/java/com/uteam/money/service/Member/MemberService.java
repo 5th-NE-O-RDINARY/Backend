@@ -6,4 +6,6 @@ import com.uteam.money.dto.Member.MemberRequestDTO;
 public interface MemberService {
     Member signUp(MemberRequestDTO.signUp request);
     boolean checkId(String memberId);
+
+    Member chargePoint(Long memberIdx, MemberRequestDTO.chargePoint request);
 }
