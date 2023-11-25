@@ -14,4 +14,9 @@ public class MemberRequestDTO {
     public static class checkId {
         String memberId;
     }
+
+    @Getter
+    public static class chargePoint{
+        Integer point;
+    }
 }

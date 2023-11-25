@@ -42,4 +42,8 @@ public class Member extends BaseEntity {
     public void setReward(Integer reward){
         this.reward = reward;
     }
+
+    public void setPoint(Integer point){
+        this.point = point;
+    }
 }

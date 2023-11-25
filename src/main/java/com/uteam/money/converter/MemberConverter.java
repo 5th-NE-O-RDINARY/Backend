@@ -24,4 +24,8 @@ public class MemberConverter {
                 .status(MemberStatus.ACTIVE)
                 .build();
     }
+
+    public static MemberResponseDTO.pointResultDTO pointResultDTO(Member member){
+        return MemberResponseDTO.pointResultDTO.builder().point(member.getPoint()).memberIdx(member.getMemberIdx()).build();
+    }
 }
