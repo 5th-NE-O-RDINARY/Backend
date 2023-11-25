@@ -28,4 +28,14 @@ public class MemberConverter {
     public static MemberResponseDTO.pointResultDTO pointResultDTO(Member member){
         return MemberResponseDTO.pointResultDTO.builder().point(member.getPoint()).memberIdx(member.getMemberIdx()).build();
     }
+
+    public static MemberResponseDTO.myPageResultDTO myPageResultDTO(Member member){
+        return MemberResponseDTO.myPageResultDTO.builder()
+                .memberIdx(member.getMemberIdx())
+                .reward(member.getReward())
+                .point(member.getPoint())
+                .name(member.getName())
+                .memberImgUrl(member.getMemberImg().getImgUrl())
+                .build();
+    }
 }

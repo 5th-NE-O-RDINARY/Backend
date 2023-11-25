@@ -53,4 +53,16 @@ public class MemberServiceImpl implements MemberService{
             throw new GeneralException(ErrorStatus.MEMBER_NOT_FOUND);
         }
     }
+
+    @Override
+    public Member showMemberInfo(Long memberIdx) {
+        Optional<Member> optionalMember = memberRepository.findById(memberIdx);
+        if(optionalMember.isPresent()){
+            Member member = optionalMember.get();
+
+            return member;
+        }else{
+            throw new GeneralException(ErrorStatus.MEMBER_NOT_FOUND);
+        }
+    }
 }
