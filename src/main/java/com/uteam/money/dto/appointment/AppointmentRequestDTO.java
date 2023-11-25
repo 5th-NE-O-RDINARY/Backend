@@ -22,6 +22,8 @@ public class AppointmentRequestDTO {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         LocalTime time;
 
+        Integer payMethod;
+
         String latitude;
 
         String longitude;
