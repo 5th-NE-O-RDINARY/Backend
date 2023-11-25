@@ -57,4 +57,12 @@ public class AppointmentResponseDTO {
         Long appointmentIdx;
         Integer refundFee;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class IsOneHourLeftDTO{
+        Boolean isLessThanOneHourLeft;
+    }
 }
