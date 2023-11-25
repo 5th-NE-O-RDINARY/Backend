@@ -77,11 +77,23 @@ public class testServiceImpl implements testService{
             appMember.setStatus(arrivalButtonStatus.RED);
             int absValue = Math.abs(timeTotime);
             appMember.setLateTime(absValue);
-        } else {
-            // 도착을 했다는 뜻
-            appMember.setStatus(arrivalButtonStatus.GRAY);
-            appMember.setLateTime(0);
         }
+        return AppointmentConverter.appPreviewListDTO(appointment, members);
+    }
+
+    @Transactional
+    public AppointmentResponseDTO.AppointmentPreviewListDTO getAppPreviewListDTOButton(Long memberIdx, Long appIdx, AppointmentRequestDTO.dateDTO request) {
+        Member member = memberRepository.getReferenceById(memberIdx);
+        Appointment appointment = appointmentRepository.getReferenceById(appIdx);
+        List<AppMember> members = appMemberRepository.findByAppointment(appointment);
+
+        int timeTotime = Math.toIntExact(appointmentCheck(appIdx, request.getTime()));
+
+        AppMember appMember = appMemberRepository.findByMember(member);
+        appMember.setStatus(arrivalButtonStatus.GRAY);
+        int absValue = Math.abs(timeTotime);
+        appMember.setLateTime(absValue);
+
         return AppointmentConverter.appPreviewListDTO(appointment, members);
     }
 }

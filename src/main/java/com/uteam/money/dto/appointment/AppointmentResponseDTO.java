@@ -48,6 +48,10 @@ public class AppointmentResponseDTO {
         arrivalButtonStatus status;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class RefundResultDTO{
         Long memberIdx;
         Long appointmentIdx;
