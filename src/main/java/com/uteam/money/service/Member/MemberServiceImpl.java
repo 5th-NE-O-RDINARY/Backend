@@ -34,4 +34,8 @@ public class MemberServiceImpl implements MemberService{
             throw new GeneralException(ErrorStatus.PROFILEIMG_NOT_FOUND);
         }
     }
+
+    public boolean checkId(String memberId) {
+        return !memberRepository.existsByMemberId(memberId);
+    }
 }

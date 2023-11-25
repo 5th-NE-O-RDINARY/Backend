@@ -9,4 +9,9 @@ public class MemberRequestDTO {
         String memberId;
         String password;
     }
+
+    @Getter
+    public static class checkId {
+        String memberId;
+    }
 }
