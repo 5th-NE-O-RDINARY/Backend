@@ -6,6 +6,7 @@ import com.uteam.money.domain.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -21,7 +22,7 @@ public class Appointment extends BaseEntity {
 
     private String title;
 
-    private Date date;
+    private LocalDateTime date;
 
     @Enumerated(EnumType.STRING)
     private Category category;
