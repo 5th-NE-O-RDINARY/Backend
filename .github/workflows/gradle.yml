@@ -67,5 +67,5 @@ jobs:
         --application-name springboot-api \
         --deployment-group-name dev \
         --file-exists-behavior OVERWRITE \
-        --s3-location bucket=ai-deploy-bucket,bundleType=zip,key=mindFriend.zip \
+        --s3-location bucket=money-app-bucket,bundleType=zip,key=money.zip \
         --region ${{ secrets.AWS_REGION }}
