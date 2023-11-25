@@ -25,4 +25,11 @@ public class testController {
         AppointmentResponseDTO.AppointmentPreviewListDTO result = testService.getAppPreviewListDTO(memberIdx, appIdx ,request);
         return ApiResponse.onSuccess(result);
     }
+
+    @GetMapping("/button/{memberIdx}/{appIdx}")
+    public ApiResponse<AppointmentResponseDTO.AppointmentPreviewListDTO> getAppListStatusButton(@PathVariable Long memberIdx , @PathVariable Long appIdx, @RequestBody
+    AppointmentRequestDTO.dateDTO request) {
+        AppointmentResponseDTO.AppointmentPreviewListDTO result = testService.getAppPreviewListDTOButton(memberIdx, appIdx, request);
+        return ApiResponse.onSuccess(result);
+    }
 }

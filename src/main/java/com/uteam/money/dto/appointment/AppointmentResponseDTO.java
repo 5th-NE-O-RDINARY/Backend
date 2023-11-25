@@ -26,6 +26,7 @@ public class AppointmentResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+
     public static class AppointmentPreviewListDTO {
         Long appIdx;
         String title;
@@ -45,5 +46,11 @@ public class AppointmentResponseDTO {
         String profileImg;
         Integer lateTime;
         arrivalButtonStatus status;
+    }
+
+    public static class RefundResultDTO{
+        Long memberIdx;
+        Long appointmentIdx;
+        Integer refundFee;
     }
 }

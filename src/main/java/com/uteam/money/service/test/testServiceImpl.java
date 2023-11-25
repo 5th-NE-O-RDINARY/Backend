@@ -35,7 +35,7 @@ public class testServiceImpl implements testService{
         // 위치 기반
         if ("LOCATION".equals(appointment.getCategory().toString())) {
             int timeTotime = Math.toIntExact(appointmentCheck(appIdx, request.getTime()));
-            System.out.println("뭔데" + timeTotime);
+
             // 도착을 하지 않았으면 자동으로 빨강 (지각)
             if (timeTotime < 0 ) {
                 appMember.setStatus(arrivalButtonStatus.RED);
@@ -51,16 +51,12 @@ public class testServiceImpl implements testService{
         return AppointmentConverter.appPreviewListDTO(appointment, members);
     }
 
-    // 약속 시간 전이면 0, 후면 얼마나 늦었는지 계산
     public Long appointmentCheck(Long appIdx, LocalDateTime time) {
         Appointment appointment = appointmentRepository.getReferenceById(appIdx);
 
-        System.out.println(appointment.getDate().getClass());
-        System.out.println(time.getClass());
         Duration duration = Duration.between(time, appointment.getDate());
         long seconds = duration.toMinutes();
 
-        System.out.println("시간  차이:" + seconds);
         return seconds;
     }
 }

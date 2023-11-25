@@ -5,13 +5,15 @@ import com.uteam.money.converter.AppointmentConverter;
 import com.uteam.money.domain.Appointment;
 import com.uteam.money.domain.DiffAppointment;
 import com.uteam.money.domain.Location;
+import com.uteam.money.domain.enums.PayMethod;
 import com.uteam.money.dto.appointment.AppointmentRequestDTO;
-import com.uteam.money.service.AppMember.AppMemberService;
+import com.uteam.money.dto.appointment.AppointmentResponseDTO;
+import com.uteam.money.service.AppMember.CalLateFeeService;
 import com.uteam.money.service.Appointment.AppointmentService;
 import com.uteam.money.service.DiffAppointment.DiffAppointmentService;
 import com.uteam.money.service.Location.LocationService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +24,7 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
     private final LocationService locationService;
     private final DiffAppointmentService diffAppointmentService;
+    private final CalLateFeeService calLateFeeService;
 
     @PostMapping("/create/{memberIdx}")
     public ApiResponse<?> createAppointment(@PathVariable("memberIdx") Long memberIdx, @RequestBody AppointmentRequestDTO.createDTO request){
@@ -35,5 +38,14 @@ public class AppointmentController {
         }
 
         return ApiResponse.onSuccess(AppointmentConverter.toCreateResultDTO(appointment));
+    }
+
+    // 환급비 계산
+    @GetMapping("/arrival/finish/{appointmentIdx}/{memberIdx}")
+    public ApiResponse<?> calculateAppointmentLateFee(@PathVariable("memberIdx") Long memberIdx, @PathVariable("appointmentIdx") Long appointmentIdx){
+        Integer settleUpLateFee = calLateFeeService.calSettleUpLateFee(appointmentIdx); // 지각 안 한 사람이 받을 추가 비용
+        AppointmentResponseDTO.RefundResultDTO refundResultDTO = calLateFeeService.calRefundFee(memberIdx, appointmentIdx, settleUpLateFee); // 환급비 계산
+
+        return ApiResponse.onSuccess(refundResultDTO);
     }
 }

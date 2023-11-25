@@ -8,6 +8,7 @@ import com.uteam.money.domain.AppMember;
 import com.uteam.money.domain.Appointment;
 import com.uteam.money.domain.Location;
 import com.uteam.money.domain.Member;
+import com.uteam.money.domain.enums.PayMethod;
 import com.uteam.money.dto.appointment.AppointmentRequestDTO;
 import com.uteam.money.repository.AppMemberRepository;
 import com.uteam.money.repository.AppointmentRepository;
