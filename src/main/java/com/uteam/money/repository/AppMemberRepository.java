@@ -18,4 +18,6 @@ public interface AppMemberRepository extends JpaRepository<AppMember, Long> {
     AppMember findByMember(Member member);
 
     AppMember findByMemberAndAppointment(Member member, Appointment appointment);
+
+    List<AppMember> findAllByAppointmentAndMember(Appointment appointment, Member member);
 }

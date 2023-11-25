@@ -42,6 +42,7 @@ public class AppointmentResponseDTO {
     @AllArgsConstructor
     public static class AppointMentMemberPreviewDTO {
         Long appMemberIdx;
+        Long memberIdx;
         String name;
         String profileImg;
         Integer lateTime;
@@ -70,11 +71,33 @@ public class AppointmentResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class pastAppDTO{
+    public static class pastAppDTO {
         Long appIdx;
         String title;
         LocalDateTime date;
         Integer lateTime;
         List<String> appMemberProfileList;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class expectedAppListDTO {
+        Long appIdx;
+        String latitude;
+        String longitude;
+        String date; // 약속 날짜와 시간
+        List<AppMembersDTO> memberList;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AppMembersDTO {
+        Long memberIdx;
+        String profileImg;
+        String name;
     }
 }
