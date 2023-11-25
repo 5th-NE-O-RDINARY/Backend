@@ -18,4 +18,15 @@ public class AppointmentResponseDTO {
         LocalDateTime createdAt;
         String inviteCode;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RefundResultDTO{
+        Long memberIdx;
+        Long appointmentIdx;
+        Integer refundFee;
+    }
+
 }
