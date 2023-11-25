@@ -20,5 +20,4 @@ public class AppMemberController {
         AppMember appMember = appMemberService.createAppMember(memberIdx, request);
         return ApiResponse.onSuccess(AppMemberConverter.toAddResultDTO(appMember));
     }
-
 }
