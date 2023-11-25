@@ -64,7 +64,24 @@ public class testServiceImpl implements testService{
 
     // 버튼 기반일 때
     public AppointmentResponseDTO.AppointmentPreviewListDTO getAppListButton(Long memberIdx, Long appIdx, AppointmentRequestDTO.dateDTO request) {
-//            // 약속 시간 전 도착: 방장 수동
-        return null;
+        Member member = memberRepository.getReferenceById(memberIdx);
+        Appointment appointment = appointmentRepository.getReferenceById(appIdx);
+        List<AppMember> members = appMemberRepository.findByAppointment(appointment);
+
+        int timeTotime = Math.toIntExact(appointmentCheck(appIdx, request.getTime()));
+
+        AppMember appMember = appMemberRepository.findByMember(member);
+
+        // 도착을 하지 않았으면 자동으로 빨강 (지각)
+        if (timeTotime < 0) {
+            appMember.setStatus(arrivalButtonStatus.RED);
+            int absValue = Math.abs(timeTotime);
+            appMember.setLateTime(absValue);
+        } else {
+            // 도착을 했다는 뜻
+            appMember.setStatus(arrivalButtonStatus.GRAY);
+            appMember.setLateTime(0);
+        }
+        return AppointmentConverter.appPreviewListDTO(appointment, members);
     }
 }
