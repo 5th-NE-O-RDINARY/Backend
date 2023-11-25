@@ -1,17 +1,23 @@
 package com.uteam.money.converter;
 
+import com.uteam.money.domain.AppMember;
 import com.uteam.money.domain.Appointment;
 import com.uteam.money.domain.Location;
 import com.uteam.money.domain.Member;
+import com.uteam.money.domain.MemberImg;
 import com.uteam.money.domain.enums.AppointmentStatus;
 import com.uteam.money.domain.enums.Category;
 import com.uteam.money.domain.enums.PayMethod;
+import com.uteam.money.domain.enums.arrivalButtonStatus;
 import com.uteam.money.dto.appointment.AppointmentRequestDTO;
 import com.uteam.money.dto.appointment.AppointmentResponseDTO;
 
+import com.uteam.money.dto.appointment.AppointmentResponseDTO.AppointmentPreviewListDTO;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AppointmentConverter {
 
@@ -59,5 +65,31 @@ public class AppointmentConverter {
                 .inviteCode(inviteCode)
                 .payMethod(payMethod)
                 .build();
+    }
+
+    public static AppointmentResponseDTO.AppointMentMemberPreviewDTO appPreviewMemberDTO(Appointment app, AppMember appMember) {
+        return AppointmentResponseDTO.AppointMentMemberPreviewDTO.builder()
+                .appMemberIdx(appMember.getAppMemberIdx())
+                .name(appMember.getMember().getName())
+                .profileImg(app.getMember().getMemberImg().getImgUrl())
+                .lateTime(appMember.getLateTime())
+                .status(appMember.getArrivalButton())
+                .build();
+    }
+
+    public static AppointmentResponseDTO.AppointmentPreviewListDTO appPreviewListDTO(Appointment appointment, List<AppMember> members) {
+        List<AppointmentResponseDTO.AppointMentMemberPreviewDTO> memberList = members.stream()
+                .map(member -> appPreviewMemberDTO(appointment, member))
+                .collect(Collectors.toList());
+        return AppointmentResponseDTO.AppointmentPreviewListDTO.builder()
+                .appIdx(appointment.getAppIdx())
+                .title(appointment.getTitle())
+                .payMethod(appointment.getPayMethod().toString())
+                .location(appointment.getLocation())
+                .category(appointment.getCategory().toString())
+                .date(appointment.getDate())
+                .memberList(memberList)
+                .build();
+
     }
 }
